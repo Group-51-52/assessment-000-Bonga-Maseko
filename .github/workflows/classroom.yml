@@ -5,6 +5,8 @@ on:
   - repository_dispatch
 
 permissions:
+  checks: write
+  actions: read
   contents: read
 
 jobs:
@@ -12,24 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Run unittest tests
-      id: run-test-cases
-      run: |
-        python3 -m unittest tests/test_fundamentals.py > failing_tests.txt || true
-        echo "result=$(cat failing_tests.txt)" >> $GITHUB_ENV
+      - name: Run unittest tests
+        run: |
+          python3 -m unittest discover -s tests -p "*.py" > test_results.txt || true
 
-    - name: Display failing test(s)
-      run: cat failing_tests.txt
+      - name: Display test results
+        run: cat test_results.txt
 
-    - name: Autograding Reporter
-      uses: classroom-resources/autograding-grading-reporter@v1
-      env:
-        RUN-TEST-CASES_RESULTS: "${{ env.result }}"
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        with:
+          runners: "run-test-cases"
+        env:
+          RUN-TEST-CASES_RESULTS: "${{steps.run-test-cases.outputs.result}}"
