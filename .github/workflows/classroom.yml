@@ -1,11 +1,14 @@
 name: Autograding Tests
-'on':
-- push
-- repository_dispatch
+
+on:
+  - push
+  - repository_dispatch
+
 permissions:
   checks: write
   actions: read
   contents: read
+
 jobs:
   run-autograding-tests:
     runs-on: ubuntu-latest
@@ -13,13 +16,22 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Run test cases
-      id: run-test-cases
-      uses: classroom-resources/autograding-python-grader@v1
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
-        timeout: 5
-        max-score: 1
-        setup-command: ''
+        python-version: 'latest'
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install -r requirements.txt  # Install dependencies if needed
+
+    - name: Run unittest tests
+      id: run-test-cases
+      run: |
+        python3 -m unittest tests/test_fundamentals.py
+
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
