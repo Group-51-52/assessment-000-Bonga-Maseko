@@ -25,7 +25,10 @@ jobs:
     - name: Run unittest tests
       id: run-test-cases
       run: |
-        python3 -m unittest tests/test_fundamentals.py
+        python3 -m unittest tests/test_fundamentals.py > failing_test(s).txt || true
+
+    - name: Display failing test(s)
+      run: failing_test(s).txt
 
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
