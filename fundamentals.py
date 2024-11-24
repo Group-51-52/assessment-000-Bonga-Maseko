@@ -1,15 +1,19 @@
 
 #Question 1
-get_date_of_birth(id_number:str): 
+def get_date_of_birth(id_number:str): 
     """
     STEP 2: Extract the date of birth from the ID number and return it as a string
 
     return format: DD/MM/YY: 
     """
+    raw = id_number[:6]
+    year = raw[:2]
+    month = raw[2:4]
+    day = raw[4:6]
     birth_of_date = id_number[4:6] 
-    return 
-
-
+    return f"{day}/{month}/{year}"
+id = '9904135677080'
+#print(id[10:12])
 #Question 2    
 def get_gender(id_number):
     """
@@ -20,11 +24,11 @@ def get_gender(id_number):
     female and if it is greater than 4999, the person is male.
     """
     
-    if int(id_number[6]) > 4:
-    'Male'
+    if int(id_number[6:10]) < 5000:
+        gender ='Female'
     else:
-    'Female'
-
+        gender ='Male'
+    return gender
     
 #Question 3
 def get_citizenship(id_number):
@@ -36,10 +40,12 @@ def get_citizenship(id_number):
     a South African citizen and if it is greater than 01, the person is a non-South 
     African citizen.
     """
-if int(id_number[10]) == 0:
-'South African'
-else:
-'Non-South African'
+    #if id_number[10:12]
+    if int(id_number[10:12]) < 10:
+        status ='South African'
+    else:
+        status ='Non-South African'
+    return status
 
 
 #Question 4
@@ -52,6 +58,27 @@ else:
 
     TODO: define a function called fizzbuzz and implement the fucntionality above.
     """
+
+def fizzbuzz(num):
+
+
+    result = ""
+    for number in range(1, num + 1):
+
+        if number % 5 == 0 and number % 3 == 0:
+            result += "FizzBuzz\\n"
+        elif number % 5 == 0:
+            result += "Buzz\\n"
+        elif number % 3 == 0:
+            result += "Fizz\\n"
+        else:
+            result += f"{number}\\n"
+    return result
+
+
+
+
+print(fizzbuzz(20))
     
 
             
@@ -80,4 +107,25 @@ def check_number(n:int):
     If n is non-positive and even then return 'Very weird'
     If n is non-positive and odd then return 'Extremely Weird'
     """
+    if n %2 == 0 and  n<0:
+        return 'Very weird'
+    elif n %2 != 0 and n<0:
+        return 'Extremely Weird'
+    elif n % 2 !=0:
+        return "Weird"
 
+    elif n % 2 ==0 and 2<=n and n<=5:
+        return 'Not Weird'
+    
+    elif n % 2 ==0 and 6<=n and n<=20:
+        return 'Weird'
+
+    elif n %2 == 0 and n > 20:
+        return "Not Weird"
+
+  
+
+
+
+
+print(check_number(-3))
