@@ -31,9 +31,9 @@ jobs:
     - name: Display failing test(s)
       run: cat failing_tests.txt
 
-    - name: Autograding Reporter
-      uses: classroom-resources/autograding-grading-reporter@v1
-      env:
-        RUN-TEST-CASES_RESULTS: "${{steps.run-test-cases.outputs.result}}"
-      with:
-        runners: run-test-cases
+    # - name: Autograding Reporter
+    #   uses: classroom-resources/autograding-grading-reporter@v1
+    #   env:
+    #     RUN-TEST-CASES_RESULTS: "${{steps.run-test-cases.outputs.result}}"
+    #   with:
+    #     runners: run-test-cases
