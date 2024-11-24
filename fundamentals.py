@@ -128,4 +128,4 @@ def check_number(n:int):
 
 
 
-print(check_number(-3))
+#print(check_number(-3))
