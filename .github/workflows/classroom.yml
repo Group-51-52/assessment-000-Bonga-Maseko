@@ -5,8 +5,6 @@ on:
   - repository_dispatch
 
 permissions:
-  checks: write
-  actions: read
   contents: read
 
 jobs:
@@ -25,14 +23,13 @@ jobs:
     - name: Run unittest tests
       id: run-test-cases
       run: |
-        python3 -m unittest tests/test_fundamentals.py > failing_test(s).txt || true
+        python3 -m unittest tests/test_fundamentals.py > failing_tests.txt || true
+        echo "result=$(cat failing_tests.txt)" >> $GITHUB_ENV
 
     - name: Display failing test(s)
-      run: failing_test(s).txt
+      run: cat failing_tests.txt
 
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        RUN-TEST-CASES_RESULTS: "${{steps.run-test-cases.outputs.result}}"
-      with:
-        runners: run-test-cases
+        RUN-TEST-CASES_RESULTS: "${{ env.result }}"
